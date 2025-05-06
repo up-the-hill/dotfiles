@@ -1,0 +1,85 @@
+" up-the-hill's config
+" Mostly sourced from:
+" BurntSushi:: https://gist.github.com/BurntSushi/393546a65db38d57cedcfd72c6d89bf3
+" bovine3dom:: https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
+
+" This wipes all existing settings. This means that if a setting in this file
+" is removed, then it will return to default. In other words, this file serves
+" as an enforced single point of truth for Tridactyl's configuration.
+sanitize tridactyllocal tridactylsync
+
+" Binds
+
+" Comment toggler for Reddit, Hacker News and Lobste.rs
+bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
+
+" " make d take you to the left (I find it much less confusing)
+" bind d composite tabprev; tabclose #
+" bind D tabclose
+
+" Only hint search results on Google
+bindurl www.google.com f hint -Jc #search a
+bindurl www.google.com F hint -Jbc #search a
+
+" Only hint links and comments on HN
+bindurl news.ycombinator.com f hint -Jc span.titleline > a, span.hnmore > a, a[href="front"]
+bindurl news.ycombinator.com F hint -Jbc span.titleline > a, span.hnmore > a
+
+" Unbind yt player controls
+unbindurl www.youtube.com j
+unbindurl www.youtube.com k
+unbindurl www.youtube.com l
+unbindurl www.youtube.com f
+unbindurl www.youtube.com <<
+unbindurl www.youtube.com >>
+
+" Unbind gmail keyboard shortcuts
+unbindurl mail.google.com j
+unbindurl mail.google.com k
+unbindurl mail.google.com u
+unbindurl mail.google.com g
+
+" Unbind search on google
+unbindurl www.google.com /
+
+" Binds for new reader mode
+bind gr reader
+bind gR reader --tab
+
+
+" Misc settings
+
+" Defaults to 300ms but I'm a 'move fast and close the wrong tabs' kinda chap
+set hintdelay 100
+
+" Ctrl-F should use the browser's native 'find' functionality.
+unbind <C-f>
+
+" But also support Tridactyl search too.
+bind / fillcmdline find
+bind ? fillcmdline find -?
+bind n findnext 1
+bind N findnext -1
+" Remove search highlighting.
+bind ,<Space> nohlsearch
+
+" Smooth scrolling, yes please. This is still a bit janky in Tridactyl.
+set smoothscroll true
+
+" The default jump of 10 is a bit much.
+bind j scrollline 5
+bind k scrollline -5
+
+" Don't run Tridactyl on some web sites because it doesn't work well, or
+" because the web site has its own keybindings.
+" autocmd DocStart mail.google.com mode ignore
+
+
+" URL redirects
+
+" Isolate Facebook in its own container
+set auconcreatecontainer true
+autocontain facebook\.com facebook
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
