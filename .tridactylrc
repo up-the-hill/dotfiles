@@ -13,9 +13,13 @@ sanitize tridactyllocal tridactylsync
 " Comment toggler for Reddit, Hacker News and Lobste.rs
 bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
 
-" " make d take you to the left (I find it much less confusing)
-" bind d composite tabprev; tabclose #
-" bind D tabclose
+" goto left and right tabs with H and L (left and right) instead of J & K (up and down????)
+bind --mode=normal H tabprev
+bind --mode=normal L tabnext_gt
+
+" move through history with J & K instead
+bind --mode=normal J back
+bind --mode=normal K forward
 
 " Only hint search results on Google
 bindurl www.google.com f hint -Jc #search a
@@ -41,6 +45,9 @@ unbindurl mail.google.com g
 
 " Unbind search on google
 unbindurl www.google.com /
+
+" Blacklists
+blacklistadd colab.research.google.com
 
 " Binds for new reader mode
 bind gr reader
