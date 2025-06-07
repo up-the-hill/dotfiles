@@ -22,6 +22,8 @@ if not string match -q -- $PNPM_HOME $PATH
 end
 # pnpm end
 
-zoxide init fish | source
+# set default editor
+set -gx EDITOR nvim
 
-set -U fish_greeting "🐟"
+# setup zoxide
+zoxide init fish | source
