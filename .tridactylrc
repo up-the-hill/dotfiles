@@ -3,56 +3,13 @@
 " BurntSushi:: https://gist.github.com/BurntSushi/393546a65db38d57cedcfd72c6d89bf3
 " bovine3dom:: https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
 
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
+
 " This wipes all existing settings. This means that if a setting in this file
 " is removed, then it will return to default. In other words, this file serves
 " as an enforced single point of truth for Tridactyl's configuration.
 sanitize tridactyllocal tridactylsync
-
-" Binds
-
-" Comment toggler for Reddit, Hacker News and Lobste.rs
-bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
-
-" goto left and right tabs with H and L (left and right) instead of J & K (up and down????)
-bind --mode=normal H tabprev
-bind --mode=normal L tabnext_gt
-
-" move through history with J & K instead
-bind --mode=normal J back
-bind --mode=normal K forward
-
-" Only hint search results on Google
-bindurl www.google.com f hint -Jc #search a
-bindurl www.google.com F hint -Jbc #search a
-
-" Only hint links and comments on HN
-bindurl news.ycombinator.com f hint -Jc span.titleline > a, span.hnmore > a, a[href="front"]
-bindurl news.ycombinator.com F hint -Jbc span.titleline > a, span.hnmore > a
-
-" Unbind yt player controls
-unbindurl www.youtube.com j
-unbindurl www.youtube.com k
-unbindurl www.youtube.com l
-unbindurl www.youtube.com f
-unbindurl www.youtube.com <<
-unbindurl www.youtube.com >>
-
-" Unbind gmail keyboard shortcuts
-unbindurl mail.google.com j
-unbindurl mail.google.com k
-unbindurl mail.google.com u
-unbindurl mail.google.com g
-
-" Unbind search on google
-unbindurl www.google.com /
-
-" Blacklists
-blacklistadd colab.research.google.com
-
-" Binds for new reader mode
-bind gr reader
-bind gR reader --tab
-
 
 " Misc settings
 
@@ -67,6 +24,7 @@ bind / fillcmdline find
 bind ? fillcmdline find -?
 bind n findnext 1
 bind N findnext -1
+
 " Remove search highlighting.
 bind ,<Space> nohlsearch
 
@@ -87,6 +45,58 @@ bind k scrollline -5
 " Isolate Facebook in its own container
 set auconcreatecontainer true
 autocontain facebook\.com facebook
+autocontain instagram\.com facebook
 
-" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
-" vim: set filetype=tridactyl
+" Binds
+
+" Comment toggler for Reddit, Hacker News and Lobste.rs
+bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
+
+" goto left and right tabs with H and L (left and right) instead of J & K (up and down????)
+commented out to try out vertical tab layout
+bind --mode=normal H tabprev
+bind --mode=normal L tabnext_gt
+
+" move through history with J & K instead
+bind --mode=normal J back
+bind --mode=normal K forward
+
+" tabprev and tabnext fixed for vertical tab bar
+" bind --mode=normal K tabprev
+" bind --mode=normal J tabnext_gt
+
+" Only hint search results on Google
+bindurl www.google.com f hint -Jc #search a
+bindurl www.google.com F hint -Jbc #search a
+
+" Only hint links and comments on HN
+bindurl news.ycombinator.com f hint -Jc span.titleline > a, span.hnmore > a, a[href="front"], span.subline a
+bindurl news.ycombinator.com F hint -Jbc span.titleline > a, span.hnmore > a, span.subline a
+
+" Unbind yt player controls
+unbindurl www.youtube.com j
+unbindurl www.youtube.com k
+unbindurl www.youtube.com l
+unbindurl www.youtube.com f
+unbindurl www.youtube.com <<
+unbindurl www.youtube.com >>
+
+" Unbind yt music controls
+unbindurl music.youtube.com j
+unbindurl music.youtube.com k
+unbindurl music.youtube.com l
+unbindurl music.youtube.com h
+
+" Unbind gmail keyboard shortcuts
+unbindurl mail.google.com j
+unbindurl mail.google.com k
+unbindurl mail.google.com u
+unbindurl mail.google.com g
+
+" Blacklists
+blacklistadd colab.research.google.com
+blacklistadd neetcode.io/problems/
+
+" Binds for new reader mode
+bind gr reader
+bind gR reader --tab
