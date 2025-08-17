@@ -2,7 +2,7 @@
 # credits: ThePrimagen
 # source: https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer
 
-work_dirs="$HOME/projects $HOME/projects/uni $HOME/projects/Application Projects/ $HOME/projects/Obsidian Plugin Dev/.obsidian"
+work_dirs="$HOME/Projects $HOME/Projects/uni $HOME/Projects/Application Projects/ $HOME/Projects/Obsidian Plugin Dev/.obsidian"
 
 if [[ $# -eq 1 ]]; then
   selected=$1
