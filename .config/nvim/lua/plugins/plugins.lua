@@ -15,11 +15,9 @@ return {
     "tridactyl/vim-tridactyl",
   },
   {
-    "folke/zen-mode.nvim",
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
+    "tidalcycles/vim-tidal",
+    config = function()
+      vim.g.tidal_target = "terminal"
+    end,
   },
 }
