@@ -2,7 +2,7 @@
 # credits: ThePrimagen
 # source: https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer
 
-work_dirs="$HOME/Projects $HOME/Projects/uni $HOME/Projects/Application Projects/ $HOME/Projects/Obsidian Plugin Dev/.obsidian"
+work_dirs="$HOME/Projects"
 
 if [[ $# -eq 1 ]]; then
   selected=$1
@@ -17,13 +17,22 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
+venv_fish_activate="$selected/venv/bin/activate.fish"
+
+if [[ -f "$venv_fish_activate" ]]; then
+  # Create a temporary fish config that sources the activate.fish and then starts interactive shell
+  shell_cmd="fish --init-command 'source \"$venv_fish_activate\"'"
+else
+  shell_cmd="fish"
+fi
+
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-  tmux new-session -s "$selected_name" -c "$selected"
+  tmux new-session -s "$selected_name" -c "$selected" "$shell_cmd"
   exit 0
 fi
 
 if ! tmux has-session -t=$selected_name 2>/dev/null; then
-  tmux new-session -ds "$selected_name" -c "$selected"
+  tmux new-session -ds "$selected_name" -c "$selected" "$shell_cmd"
 fi
 
 if [[ -z $TMUX ]]; then
