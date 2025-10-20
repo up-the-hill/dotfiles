@@ -96,7 +96,12 @@ unbindurl mail.google.com g
 " Blacklists
 blacklistadd colab.research.google.com
 blacklistadd neetcode.io/problems/
+blacklistadd www.hackerrank.com/test/
+blacklistadd www.hackerrank.com/challenges/
 
 " Binds for new reader mode
 bind gr reader
 bind gR reader --tab
+
+" editor settings <C-i>
+set editorcmd alacritty -e nvim
