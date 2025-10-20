@@ -11,6 +11,11 @@ vim.o.relativenumber = true
 vim.o.number = true
 vim.o.mouse = 'a'
 
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.expandtab = true
+
 -- set colorscheme
 vim.cmd 'colorscheme habamax'
 
@@ -67,6 +72,12 @@ vim.o.confirm = true
 -- [[ BASIC KEYMAPS ]]
 --  See `:help vim.keymap.set()`
 
+-- switch to last buffer with leader s
+vim.keymap.set('n', '<leader>s', '<cmd>b#<CR>')
+
+-- open netrw with leader e
+vim.keymap.set('n', '<leader>e', '<cmd>e .<CR>')
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
@@ -105,7 +116,7 @@ rtp:prepend(lazypath)
 
 -- [[ Configure and install plugins ]]
 require('lazy').setup {
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  -- 'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -193,6 +204,7 @@ require('lazy').setup {
           map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
+          map('K', vim.lsp.buf.signature_help, '')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -401,5 +413,30 @@ require('lazy').setup {
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
+  },
+
+  {
+    'kdheepak/lazygit.nvim',
+    lazy = true,
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
+    keys = {
+      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+    },
+  },
+
+  {
+    'nvim-tree/nvim-tree.lua',
   },
 }
