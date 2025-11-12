@@ -1,5 +1,6 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR EDITOR:vim
 SETUVAR --export PYENV_ROOT:/home/ajsth/\x2epyenv
 SETUVAR Z_DATA_DIR:/home/ajsth/\x2elocal/share/z
 SETUVAR __fish_initialized:3800

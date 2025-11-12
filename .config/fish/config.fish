@@ -22,8 +22,10 @@ if not string match -q -- $PNPM_HOME $PATH
 end
 # pnpm end
 
+set -x PATH /home/ajsth/.cargo/bin/ $PATH
+
 # set default editor
-set -gx EDITOR nvim
+set -gx EDITOR vim
 
 # setup zoxide
 zoxide init fish | source
@@ -41,3 +43,7 @@ if not contains $_asdf_shims $PATH
     set -gx --prepend PATH $_asdf_shims
 end
 set --erase _asdf_shims
+
+set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
+set -gx PATH $HOME/.cabal/bin /home/ajsth/.ghcup/bin $PATH # ghcup-env
+
