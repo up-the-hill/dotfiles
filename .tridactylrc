@@ -47,23 +47,27 @@ set auconcreatecontainer true
 autocontain facebook\.com facebook
 autocontain instagram\.com facebook
 
-" Binds
+""""""""""
+" BINDS
+""""""""""
+
+bind <Space>s buffer #
 
 " Comment toggler for Reddit, Hacker News and Lobste.rs
 bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
 
 " goto left and right tabs with H and L (left and right) instead of J & K (up and down????)
-commented out to try out vertical tab layout
-bind --mode=normal H tabprev
-bind --mode=normal L tabnext_gt
+" commented out to try out vertical tab layout
+" bind --mode=normal H tabprev
+" bind --mode=normal L tabnext_gt
 
 " move through history with J & K instead
-bind --mode=normal J back
-bind --mode=normal K forward
+" bind --mode=normal J back
+" bind --mode=normal K forward
 
 " tabprev and tabnext fixed for vertical tab bar
-" bind --mode=normal K tabprev
-" bind --mode=normal J tabnext_gt
+bind --mode=normal K tabprev
+bind --mode=normal J tabnext_gt
 
 " Only hint search results on Google
 bindurl www.google.com f hint -Jc #search a
@@ -95,9 +99,10 @@ unbindurl mail.google.com g
 
 " Blacklists
 blacklistadd colab.research.google.com
-blacklistadd neetcode.io/problems/
+blacklistadd eetcode.io/problems/
+blacklistadd strudel.cc/
 blacklistadd www.hackerrank.com/test/
-blacklistadd www.hackerrank.com/challenges/
+blacklistadd www.hackerrank.com/challenge/
 
 " Binds for new reader mode
 bind gr reader
