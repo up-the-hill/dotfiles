@@ -51,7 +51,7 @@ autocontain instagram\.com facebook
 " BINDS
 """"""""""
 
-bind <Space>s buffer #
+bind <C-s> buffer #
 
 " Comment toggler for Reddit, Hacker News and Lobste.rs
 bind ;c hint -Jc [class*="expand"],[class*="togg"],[class="comment_folder"]
@@ -78,12 +78,14 @@ bindurl news.ycombinator.com f hint -Jc span.titleline > a, span.hnmore > a, a[h
 bindurl news.ycombinator.com F hint -Jbc span.titleline > a, span.hnmore > a, span.subline a
 
 " Unbind yt player controls
-unbindurl www.youtube.com j
-unbindurl www.youtube.com k
-unbindurl www.youtube.com l
-unbindurl www.youtube.com f
+" unbindurl www.youtube.com j
+" unbindurl www.youtube.com k
+" unbindurl www.youtube.com l
+" unbindurl www.youtube.com f
 unbindurl www.youtube.com <<
 unbindurl www.youtube.com >>
+unbindurl www.youtube.com ,<Space>
+unbindurl www.youtube.com .
 
 " Unbind yt music controls
 unbindurl music.youtube.com j
