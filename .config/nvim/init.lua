@@ -16,9 +16,6 @@ vim.o.shiftwidth = 2
 vim.o.softtabstop = 2
 vim.o.expandtab = true
 
--- set colorscheme
-vim.cmd 'colorscheme habamax'
-
 -- set statusline options
 vim.cmd ':hi statusline guibg=none'
 vim.cmd ':hi statusline guifg=gray'
@@ -210,7 +207,8 @@ require('lazy').setup {
           map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
           map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
-          map('K', vim.lsp.buf.signature_help, '')
+          -- map('K', vim.lsp.buf.hover, '')
+          -- map('K', vim.lsp.buf.signature_help, '')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -296,6 +294,15 @@ require('lazy').setup {
         },
       }
     end,
+  },
+  {
+    'nvim-flutter/flutter-tools.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      -- 'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+    config = true,
   },
 
   { -- Autoformat
@@ -458,4 +465,12 @@ require('lazy').setup {
     -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
     lazy = false,
   },
+  -- THEMES
+  {
+    'rebelot/kanagawa.nvim',
+    priority = 1000, -- make sure to load this before all the other start plugins
+  },
 }
+
+-- set colorscheme
+vim.cmd 'colorscheme kanagawa-dragon'
