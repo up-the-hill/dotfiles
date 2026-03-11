@@ -427,6 +427,13 @@ require('lazy').setup {
           additional_vim_regex_highlighting = { 'ruby' },
         },
         indent = { enable = true, disable = { 'ruby' } },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            node_incremental = 'v',
+            node_decremental = 'V',
+          },
+        },
       }
     end,
   },
@@ -467,10 +474,10 @@ require('lazy').setup {
   },
   -- THEMES
   {
-    'rebelot/kanagawa.nvim',
+    'EdenEast/nightfox.nvim',
     priority = 1000, -- make sure to load this before all the other start plugins
   },
 }
 
 -- set colorscheme
-vim.cmd 'colorscheme kanagawa-dragon'
+vim.cmd 'colorscheme carbonfox'
