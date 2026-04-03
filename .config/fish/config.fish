@@ -49,3 +49,5 @@ set -gx PATH $HOME/.cabal/bin /home/ajsth/.ghcup/bin $PATH # ghcup-env
 
 # opam source for ocaml
 test -r '/home/ajsth/.opam/opam-init/init.fish' && source '/home/ajsth/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
+
+thefuck --alias | source
