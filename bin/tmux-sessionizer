@@ -2,7 +2,7 @@
 # credits: ThePrimagen
 # source: https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/scripts/tmux-sessionizer
 
-work_dirs="$HOME/Projects"
+work_dirs="$HOME/Projects $HOME/uni"
 
 if [[ $# -eq 1 ]]; then
   selected=$1
