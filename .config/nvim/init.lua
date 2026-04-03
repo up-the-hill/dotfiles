@@ -1,145 +1,6 @@
--- Set <space> as the leader key
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
-vim.g.have_nerd_font = true
-
--- [[ Setting options ]]
-
-vim.o.relativenumber = true
-vim.o.number = true
-vim.o.mouse = 'a'
-
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
-vim.o.softtabstop = 2
-vim.o.expandtab = true
-
--- set statusline background and foreground color
-vim.cmd ':hi statusline guibg=none'
-vim.cmd ':hi statusline guifg=gray'
-
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.o.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-
--- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
-
--- Configure how new splits should be opened
-vim.o.splitright = true
-vim.o.splitbelow = true
-
--- Sets how neovim will display certain whitespace characters in the editor.
-vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-
--- Preview substitutions live, as you type!
--- vim.o.inccommand = 'split'
-
--- Show which line your cursor is on
-vim.o.cursorline = true
-
--- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 15
-
--- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
--- instead raise a dialog asking if you wish to save the current file(s)
-vim.o.confirm = true
-
--- vim fold with treesitter
-vim.o.foldmethod = 'expr'
-vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldtext = ""
-vim.o.foldenable = false
-
--- [[ BASIC KEYMAPS ]]
---  See `:help vim.keymap.set()`
-
-local map = vim.keymap.set
-local opts = { noremap = true, silent = true }
-
--- switch to last buffer with leader s
-map('n', '<leader>s', '<cmd>b#<CR>')
-
--- open netrw with leader e
-map('n', '<leader>e', '<cmd>e .<CR>')
-
--- Clear highlights on search when pressing <Esc> in normal mode
-map('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
--- Diagnostic keymaps
-map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
--- this opens a little floating window
-map('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-
--- this shows a nice navagatable list with all the errors
-map('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
-map('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-map('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-map('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
--- keymaps for moving around
-map("n", "gl", "$", { desc = "Go to end of line" })
-map("n", "gh", "^", { desc = "Go to start of line" })
-
--- Better paste
-map("v", "p", '"_dP', opts)
-
--- Better indenting - stay in visual mode when indenting
-map("v", "<", "<gv")
-map("v", ">", ">gv")
-
-map('n', '<leader>gg', '<cmd>LazyGit<cr>', { desc = 'LazyGit' })
-
-    vim.keymap.set({ 'x', 'o' }, 'v', function()
-      if vim.treesitter.get_parser(nil, nil, { error = false }) then
-        require 'vim.treesitter._select'.select_parent(vim.v.count1)
-      else
-        vim.lsp.buf.selection_range(vim.v.count1)
-      end
-    end, { desc = 'Select parent (outer) node' })
-
-    vim.keymap.set({ 'x', 'o' }, 'V', function()
-      if vim.treesitter.get_parser(nil, nil, { error = false }) then
-        require 'vim.treesitter._select'.select_child(vim.v.count1)
-      else
-        vim.lsp.buf.selection_range(-vim.v.count1)
-      end
-    end, { desc = 'Select child (inner) node' })
-
-
--- [[ Basic Autocommands ]]
-vim.api.nvim_create_autocmd('TextYankPost', {
-  desc = 'Highlight when yanking (copying) text',
-  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
-  callback = function()
-    vim.hl.on_yank()
-  end,
-})
+require('options')
+require('keymaps')
+require('autocmds')
 
 --- [[ Configure and install plugins ]]
 vim.pack.add {
@@ -163,7 +24,6 @@ vim.pack.add {
   'https://github.com/echasnovski/mini.nvim',
   'https://github.com/stevearc/oil.nvim',
   'https://github.com/EdenEast/nightfox.nvim',
-  -- 'https://github.com/aspeddro/gitui.nvim',
 }
 
 
@@ -175,14 +35,14 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 local builtin = require 'telescope.builtin'
-map('n', '<leader><leader>', builtin.find_files, { desc = '[S]earch [F]iles' })
-map('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-map('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-map('n', '<leader>/', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-map('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>/', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 -- Shortcut for searching your Neovim configuration files
-map('n', '<leader>sn', function()
+vim.keymap.set('n', '<leader>sn', function()
   builtin.find_files { cwd = vim.fn.stdpath 'config' }
 end, { desc = '[S]earch [N]eovim files' })
 
@@ -284,7 +144,7 @@ vim.lsp.config('lua_ls', {
 })
 
 vim.cmd 'packadd nvim.undotree'
-map('n', '<leader>u', require('undotree').open)
+vim.keymap.set('n', '<leader>u', require('undotree').open)
 
 -- set colorscheme
 vim.cmd.colorscheme('carbonfox')
