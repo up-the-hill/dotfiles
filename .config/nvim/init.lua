@@ -1,6 +1,6 @@
-require('options')
-require('keymaps')
-require('autocmds')
+require 'options'
+require 'keymaps'
+require 'autocmds'
 
 --- [[ Configure and install plugins ]]
 vim.pack.add {
@@ -26,6 +26,30 @@ vim.pack.add {
   'https://github.com/EdenEast/nightfox.nvim',
 }
 
+require('conform').setup {
+  notify_on_error = false,
+  format_on_save = function(bufnr)
+    -- Disable "format_on_save lsp_fallback" for languages that don't
+    -- have a well standardized coding style.
+    local disable_filetypes = { c = true, cpp = true }
+    if disable_filetypes[vim.bo[bufnr].filetype] then
+      return nil
+    else
+      return {
+        timeout_ms = 500,
+        lsp_format = 'fallback',
+      }
+    end
+  end,
+  formatters_by_ft = {
+    lua = { 'stylua' },
+    -- Conform can also run multiple formatters sequentially
+    -- python = { "isort", "black" },
+    --
+    -- You can use 'stop_after_first' to run the first available formatter from the list
+    -- javascript = { "prettierd", "prettier", stop_after_first = true },
+  },
+}
 
 -- Telescope
 require('telescope').setup {}
@@ -47,45 +71,45 @@ vim.keymap.set('n', '<leader>sn', function()
 end, { desc = '[S]earch [N]eovim files' })
 
 -- [[ Configure and install plugins ]]
-require('flutter-tools').setup({})
-require('supermaven-nvim').setup({
+require('flutter-tools').setup {}
+require('supermaven-nvim').setup {
   keymaps = {
-    accept_suggestion = "<Tab>",
-    clear_suggestion = "<C-]>",
-    accept_word = "<C-j>",
+    accept_suggestion = '<Tab>',
+    clear_suggestion = '<C-]>',
+    accept_word = '<C-j>',
   },
-})
+}
 
 require('oil').setup()
 
-require('blink.cmp').setup{
-      keymap = {
-        preset = 'default',
-      },
+require('blink.cmp').setup {
+  keymap = {
+    preset = 'default',
+  },
 
-      appearance = {
-        nerd_font_variant = 'mono',
-      },
+  appearance = {
+    nerd_font_variant = 'mono',
+  },
 
-      completion = {
-        -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = true, auto_show_delay_ms = 500 },
-        trigger = { prefetch_on_insert = false },
-      },
+  completion = {
+    -- By default, you may press `<c-space>` to show the documentation.
+    -- Optionally, set `auto_show = true` to show the documentation after a delay.
+    documentation = { auto_show = true, auto_show_delay_ms = 500 },
+    trigger = { prefetch_on_insert = false },
+  },
 
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
-        providers = {
-          lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-        },
-      },
+  sources = {
+    default = { 'lsp', 'path', 'snippets', 'lazydev' },
+    providers = {
+      lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+    },
+  },
 
-      snippets = { preset = 'luasnip' },
-      fuzzy = { implementation = 'rust', prebuilt_binaries = { force_version = 'v1.9.1' } },
+  snippets = { preset = 'luasnip' },
+  fuzzy = { implementation = 'rust', prebuilt_binaries = { force_version = 'v1.9.1' } },
 
-      -- Shows a signature help window while you type arguments for a function
-      signature = { enabled = true },
+  -- Shows a signature help window while you type arguments for a function
+  signature = { enabled = true },
 }
 
 require('nvim-treesitter').setup {
@@ -123,28 +147,10 @@ require('mason-tool-installer').setup {
     'stylua',
   },
 }
-
-vim.lsp.config('lua_ls', {
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-      },
-      diagnostics = {
-        globals = {
-          'vim',
-          'require',
-        },
-      },
-      workspace = {
-        library = vim.api.nvim_get_runtime_file('', true),
-      },
-    },
-  },
-})
+require 'lsp-config'
 
 vim.cmd 'packadd nvim.undotree'
 vim.keymap.set('n', '<leader>u', require('undotree').open)
 
 -- set colorscheme
-vim.cmd.colorscheme('carbonfox')
+vim.cmd.colorscheme 'carbonfox'
