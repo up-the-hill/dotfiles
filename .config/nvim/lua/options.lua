@@ -68,6 +68,8 @@ vim.o.confirm = true
 -- vim fold with treesitter
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldtext = ""
+vim.opt.foldtext = ''
 vim.o.foldenable = false
 
+-- linebreak
+vim.o.linebreak = true

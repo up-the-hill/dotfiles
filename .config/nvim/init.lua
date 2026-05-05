@@ -19,11 +19,46 @@ vim.pack.add {
   'https://github.com/nvim-telescope/telescope.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/kdheepak/lazygit.nvim',
-  'https://github.com/tridactyl/vim-tridactyl',
-  'https://github.com/lervag/vimtex',
   'https://github.com/echasnovski/mini.nvim',
-  'https://github.com/stevearc/oil.nvim',
   'https://github.com/EdenEast/nightfox.nvim',
+  { src = 'https://github.com/3rd/image.nvim', data = { build = false } },
+  'https://github.com/m4xshen/smartcolumn.nvim',
+  'https://github.com/lommix/godot.nvim',
+}
+
+require('godot').setup {
+
+  -- Path to your Godot executable
+  bin = 'godot',
+
+  -- DAP configuration
+  dap = {
+    host = '127.0.0.1',
+    port = 6006,
+  },
+
+  -- GUI settings for console (passed to nvim_open_win)
+  gui = {
+    console_config = {
+      anchor = 'SW',
+      border = 'double',
+      col = 1,
+      height = 10,
+      relative = 'editor',
+      row = 99999,
+      style = 'minimal',
+      width = 99999,
+    },
+  },
+
+  -- Expose user commands automatically (optional)
+  expose_commands = true,
+}
+
+require('smartcolumn').setup()
+
+require('image').setup {
+  processor = 'magick_cli',
 }
 
 require('conform').setup {
@@ -43,10 +78,13 @@ require('conform').setup {
   end,
   formatters_by_ft = {
     lua = { 'stylua' },
+    gdscript = { 'gdscript-formatter' },
+    flutter = { 'dart_format' },
     -- Conform can also run multiple formatters sequentially
     -- python = { "isort", "black" },
     --
-    -- You can use 'stop_after_first' to run the first available formatter from the list
+    -- You can use 'stop_after_first' to run the first available formatter from
+    -- the list
     -- javascript = { "prettierd", "prettier", stop_after_first = true },
   },
 }
@@ -57,13 +95,15 @@ require('telescope').setup {}
 -- Enable Telescope extensions if they are installed
 pcall(require('telescope').load_extension, 'fzf')
 
+local map = vim.keymap.set
 -- See `:help telescope.builtin`
 local builtin = require 'telescope.builtin'
-vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>/', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+map('n', '<leader><leader>', builtin.find_files, { desc = '[S]earch [F]iles' })
+map('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect' })
+map('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch curr [W]ord' })
+map('n', '<leader>/', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+map('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostic' })
+map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = '[C]ode [A]ction' })
 
 -- Shortcut for searching your Neovim configuration files
 vim.keymap.set('n', '<leader>sn', function()
@@ -80,8 +120,6 @@ require('supermaven-nvim').setup {
   },
 }
 
-require('oil').setup()
-
 require('blink.cmp').setup {
   keymap = {
     preset = 'default',
@@ -93,7 +131,7 @@ require('blink.cmp').setup {
 
   completion = {
     -- By default, you may press `<c-space>` to show the documentation.
-    -- Optionally, set `auto_show = true` to show the documentation after a delay.
+    -- Optionally, set `auto_show = true` to show documentation after a delay.
     documentation = { auto_show = true, auto_show_delay_ms = 500 },
     trigger = { prefetch_on_insert = false },
   },
@@ -106,20 +144,24 @@ require('blink.cmp').setup {
   },
 
   snippets = { preset = 'luasnip' },
-  fuzzy = { implementation = 'rust', prebuilt_binaries = { force_version = 'v1.9.1' } },
+  fuzzy = {
+    implementation = 'rust',
+    prebuilt_binaries = { force_version = 'v1.9.1' },
+  },
 
   -- Shows a signature help window while you type arguments for a function
   signature = { enabled = true },
 }
 
 require('nvim-treesitter').setup {
-  ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+  ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'markdown' },
   auto_install = true,
   highlight = {
     enable = true,
-    -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-    --  If you are experiencing weird indenting issues, add the language to
-    --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+    -- Some languages depend on vim's regex highlighting system (such as Ruby)
+    -- for indent rules. If you are experiencing weird indenting issues, add
+    -- the language to the list of additional_vim_regex_highlighting and
+    -- disabled languages for indent.
     additional_vim_regex_highlighting = { 'ruby' },
   },
   indent = { enable = true, disable = { 'ruby' } },
@@ -128,6 +170,9 @@ require('nvim-treesitter').setup {
 require('mini.surround').setup()
 require('mini.pairs').setup()
 require('mini.icons').setup()
+require('mini.ai').setup()
+require('mini.files').setup()
+
 require('gitsigns').setup {
   signs = {
     add = { text = '+' },
