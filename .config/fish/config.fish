@@ -32,3 +32,6 @@ zoxide init fish | source
 
 # setup thefuck
 thefuck --alias | source
+
+# set vim mode
+fish_vi_key_bindings
