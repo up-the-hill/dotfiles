@@ -10,7 +10,7 @@ set -x LESS_TERMCAP_so (printf "\033[01;44;33m")
 set -x LESS_TERMCAP_ue (printf "\033[0m")
 set -x LESS_TERMCAP_us (printf "\033[01;32m")
 
-pyenv init - | source
+# pyenv init - | source
 
 # Created by `pipx` on 2024-01-15 18:03:59
 # set PATH $PATH /home/ajsth/.local/bin
