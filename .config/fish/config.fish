@@ -13,7 +13,7 @@ set -x LESS_TERMCAP_us (printf "\033[01;32m")
 pyenv init - | source
 
 # Created by `pipx` on 2024-01-15 18:03:59
-set PATH $PATH /home/ajsth/.local/bin
+# set PATH $PATH /home/ajsth/.local/bin
 
 # pnpm
 set -gx PNPM_HOME "/home/ajsth/.local/share/pnpm"
@@ -30,24 +30,5 @@ set -gx EDITOR vim
 # setup zoxide
 zoxide init fish | source
 
-# ASDF configuration code
-if test -z $ASDF_DATA_DIR
-    set _asdf_shims "$HOME/.asdf/shims"
-else
-    set _asdf_shims "$ASDF_DATA_DIR/shims"
-end
-
-# Do not use fish_add_path (added in Fish 3.2) because it
-# potentially changes the order of items in PATH
-if not contains $_asdf_shims $PATH
-    set -gx --prepend PATH $_asdf_shims
-end
-set --erase _asdf_shims
-
-set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME
-set -gx PATH $HOME/.cabal/bin /home/ajsth/.ghcup/bin $PATH # ghcup-env
-
-# opam source for ocaml
-test -r '/home/ajsth/.opam/opam-init/init.fish' && source '/home/ajsth/.opam/opam-init/init.fish' > /dev/null 2> /dev/null; or true
-
+# setup thefuck
 thefuck --alias | source
