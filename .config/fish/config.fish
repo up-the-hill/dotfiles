@@ -15,15 +15,6 @@ set -x LESS_TERMCAP_us (printf "\033[01;32m")
 # Created by `pipx` on 2024-01-15 18:03:59
 # set PATH $PATH /home/ajsth/.local/bin
 
-# pnpm
-set -gx PNPM_HOME "/home/ajsth/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
-
-set -x PATH /home/ajsth/.cargo/bin/ $PATH
-
 # set default editor
 set -gx EDITOR vim
 
