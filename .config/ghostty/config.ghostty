@@ -2,7 +2,7 @@
 
 # command = tmux a
 clipboard-read = allow
-theme = Oxocarbon
+theme = Carbonfox
 background = #161616
 foreground = #f2f4f8
 selection-background = #393939
