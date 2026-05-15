@@ -73,7 +73,7 @@ vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'
 vim.opt.foldtext = ''
 vim.o.foldenable = false
 vim.opt.foldlevel = 99
-vim.o.foldcolumn = 'auto:1'
+-- vim.o.foldcolumn = 'auto:1'
 
 -- linebreak
 vim.o.linebreak = true
