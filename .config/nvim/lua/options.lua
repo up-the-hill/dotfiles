@@ -69,9 +69,11 @@ vim.o.confirm = true
 
 -- vim fold with treesitter
 vim.o.foldmethod = 'expr'
-vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'
 vim.opt.foldtext = ''
 vim.o.foldenable = false
+vim.opt.foldlevel = 99
+vim.o.foldcolumn = 'auto:1'
 
 -- linebreak
 vim.o.linebreak = true

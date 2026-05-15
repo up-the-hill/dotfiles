@@ -1,6 +1,5 @@
 anki
 nvim
-nvm
 ghostty
 tmux
 nodejs
@@ -68,3 +67,4 @@ keyd
 syncthing
 mosh
 sshfs
+wl-clipboard
