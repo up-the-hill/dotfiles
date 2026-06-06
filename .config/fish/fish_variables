@@ -1,7 +1,7 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
 SETUVAR EDITOR:vim
-SETUVAR --export PYENV_ROOT:/home/avi/.pyenv
+SETUVAR --export PYENV_ROOT:/home/avi/\x2epyenv
 SETUVAR Z_DATA_DIR:/home/avi/\x2elocal/share/z
 SETUVAR __fish_initialized:4300
 SETUVAR __fish_webconfig_theme_notification:set\x2dtheme\x2dv1\x2d\x231
@@ -10,4 +10,4 @@ SETUVAR _fisher_lengyijun_2F_fc_2D_fish_files:\x7e/\x2econfig/fish/functions/fc\
 SETUVAR _fisher_plugins:jorgebucaran/nvm\x2efish\x1elengyijun/fc\x2dfish
 SETUVAR _fisher_upgraded_to_4_4:\x1d
 SETUVAR fish_greeting:\U0001f41f
-SETUVAR fish_user_paths:/home/avi/bin\x1e/home/avi/fvm/default/bin/\x1e/home/avi/.cargo/bin\x1e/home/avi/.local/bin\x1e/home/avi/.local/share/pnpm/bin
+SETUVAR fish_user_paths:/home/avi/\x2enpm\x2dglobal\x1e/home/avi/bin\x1e/home/avi/fvm/default/bin/\x1e/home/avi/\x2ecargo/bin\x1e/home/avi/\x2elocal/bin\x1e/home/avi/\x2elocal/share/pnpm/bin
