@@ -74,8 +74,8 @@ bindurl www.google.com f hint -Jc #search a
 bindurl www.google.com F hint -Jbc #search a
 
 " Only hint links and comments on HN
-bindurl news.ycombinator.com f hint -Jc span.titleline > a, span.hnmore > a, a[href="front"], span.subline a
-bindurl news.ycombinator.com F hint -Jbc span.titleline > a, span.hnmore > a, span.subline a
+" bindurl news.ycombinator.com f hint -Jc span.titleline > a, span.hnmore > a, a[href="front"], span.subline a
+" bindurl news.ycombinator.com F hint -Jbc span.titleline > a, span.hnmore > a, span.subline a
 
 " Unbind yt player controls
 " unbindurl www.youtube.com j
