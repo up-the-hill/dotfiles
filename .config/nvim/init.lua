@@ -2,6 +2,17 @@ require 'options'
 require 'keymaps'
 require 'autocmds'
 
+-- Load .env file
+local env_file = vim.fn.stdpath 'config' .. '/.env'
+if vim.fn.filereadable(env_file) == 1 then
+  for line in io.lines(env_file) do
+    local key, value = line:match '^%s*([%w_]+)%s*=%s*(.-)%s*$'
+    if key and value then
+      vim.env[key] = value
+    end
+  end
+end
+
 --- [[ Configure and install plugins ]]
 vim.pack.add {
   'https://github.com/folke/lazydev.nvim',
@@ -14,7 +25,6 @@ vim.pack.add {
   'https://github.com/lewis6991/gitsigns.nvim',
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/nvim-flutter/flutter-tools.nvim',
-  'https://github.com/supermaven-inc/supermaven-nvim',
   'https://github.com/stevearc/conform.nvim',
   'https://github.com/nvim-telescope/telescope.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter',
@@ -23,37 +33,88 @@ vim.pack.add {
   'https://github.com/EdenEast/nightfox.nvim',
   { src = 'https://github.com/3rd/image.nvim', data = { build = false } },
   'https://github.com/m4xshen/smartcolumn.nvim',
-  'https://github.com/lommix/godot.nvim',
+  -- 'https://github.com/lommix/godot.nvim',
+  -- 'https://github.com/OXY2DEV/markview.nvim',
+  'https://github.com/arakkkkk/kanban.nvim',
+  'https://github.com/milanglacier/minuet-ai.nvim',
+  'https://github.com/supermaven-inc/supermaven-nvim',
+  'https://github.com/folke/tokyonight.nvim',
 }
 
-require('godot').setup {
+-- require('minuet').setup {
+--   virtualtext = {
+--     auto_trigger_ft = {},
+--     keymap = {
+--       -- accept whole completion
+--       accept = '<Tab>',
+--       -- accept one line
+--       accept_line = '<A-a>',
+--       -- accept n lines (prompts for number)
+--       -- e.g. "A-z 2 CR" will accept 2 lines
+--       accept_n_lines = '<A-z>',
+--       -- Cycle to prev completion item, or manually invoke completion
+--       prev = '<A-[>',
+--       -- Cycle to next completion item, or manually invoke completion
+--       next = '<A-]>',
+--       dismiss = '<A-e>',
+--     },
+--   },
+--
+--   provider = 'openai_compatible',
+--   request_timeout = 3.5,
+--   throttle = 1500, -- Increase to reduce costs and avoid rate limits
+--   debounce = 600, -- Increase to reduce costs and avoid rate limits
+--   provider_options = {
+--     openai_compatible = {
+--       api_key = 'OPENROUTER_API_KEY',
+--       end_point = 'https://openrouter.ai/api/v1/chat/completions',
+--       model = 'openrouter/free',
+--       -- model = 'deepseek/deepseek-v4-flash',
+--       name = 'Openrouter',
+--       optional = {
+--         -- max_tokens = 56,
+--         -- top_p = 0.9,
+--         provider = {
+--           -- Prioritize throughput for faster completion
+--           sort = 'throughput',
+--         },
+--         -- disable thinking to avoid first token latency
+--         reasoning_effort = 'none',
+--       },
+--     },
+--   },
+-- }
 
-  -- Path to your Godot executable
-  bin = 'godot',
+require('kanban').setup {}
+vim.keymap.set('n', '<leader>k', ':KanbanOpen kanban.md<CR>')
 
-  -- DAP configuration
-  dap = {
-    host = '127.0.0.1',
-    port = 6006,
-  },
-
-  -- GUI settings for console (passed to nvim_open_win)
-  gui = {
-    console_config = {
-      anchor = 'SW',
-      border = 'double',
-      col = 1,
-      height = 10,
-      relative = 'editor',
-      row = 99999,
-      style = 'minimal',
-      width = 99999,
-    },
-  },
-
-  -- Expose user commands automatically (optional)
-  expose_commands = true,
-}
+-- require('godot').setup {
+--   -- Path to your Godot executable
+--   bin = 'godot',
+--
+--   -- DAP configuration
+--   dap = {
+--     host = '127.0.0.1',
+--     port = 6006,
+--   },
+--
+--   -- GUI settings for console (passed to nvim_open_win)
+--   gui = {
+--     console_config = {
+--       anchor = 'SW',
+--       border = 'double',
+--       col = 1,
+--       height = 10,
+--       relative = 'editor',
+--       row = 99999,
+--       style = 'minimal',
+--       width = 99999,
+--     },
+--   },
+--
+--   -- Expose user commands automatically (optional)
+--   expose_commands = true,
+-- }
 
 require('smartcolumn').setup()
 
@@ -154,7 +215,7 @@ require('blink.cmp').setup {
 }
 
 require('nvim-treesitter').setup {
-  ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'markdown' },
+  ensure_installed = { 'bash', 'c', 'diff', 'html', 'css', 'tailwindcss', 'lua', 'markdown', 'python', 'javascript', 'typescript', 'json', 'go', 'rust', 'c' },
   auto_install = true,
   highlight = {
     enable = true,
@@ -167,11 +228,59 @@ require('nvim-treesitter').setup {
   indent = { enable = true, disable = { 'ruby' } },
 }
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'ink', 'typescript', 'javascript', 'typescriptreact', 'javascriptreact', 'tsx', 'jsx' },
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'TSUpdate',
+  callback = function()
+    require('nvim-treesitter.parsers').ink = {
+      install_info = {
+        url = 'https://github.com/little-bonsai/tree-sitter-ink',
+        -- revision = <sha>, -- commit hash for revision to check out; HEAD if missing
+        -- optional entries:
+        -- branch = 'develop', -- only needed if different from default branch
+        -- location = 'parser', -- only needed if the parser is in subdirectory of a "monorepo"
+        generate = true, -- only needed if repo does not contain pre-generated `src/parser.c`
+        -- generate_from_json = false, -- only needed if repo does not contain `src/grammar.json` either
+        queries = 'queries', -- also install queries from given directory
+      },
+    }
+  end,
+})
+
+vim.filetype.add {
+  extension = {
+    ink = 'ink',
+  },
+}
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'TSUpdate',
+  callback = function()
+    require('nvim-treesitter.parsers').lua.install_info.generate = true
+  end,
+})
+
 require('mini.surround').setup()
 require('mini.pairs').setup()
 require('mini.icons').setup()
 require('mini.ai').setup()
-require('mini.files').setup()
+require('mini.files').setup {
+  options = {
+    permanent_delete = false,
+  },
+}
+
+vim.keymap.set('n', '<leader>e', function()
+  MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
+
+  MiniFiles.reveal_cwd()
+end)
 
 require('gitsigns').setup {
   signs = {
@@ -188,8 +297,26 @@ require('mason').setup()
 require('mason-lspconfig').setup()
 require('mason-tool-installer').setup {
   ensure_installed = {
+    -- Lua
     'lua_ls',
     'stylua',
+    -- Python
+    'pyright',
+    'ruff',
+    -- Typescript
+    'ts_ls',
+    'biome', -- js linting / formatting, faster than eslint / prettier
+    'jsonls',
+    'html',
+    'cssls',
+    'tailwindcss',
+    -- Go
+    'gopls',
+    'gofumpt',
+    -- Rust
+    'rust_analyzer',
+    -- C
+    'clangd',
   },
 }
 require 'lsp-config'
