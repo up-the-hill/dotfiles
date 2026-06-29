@@ -31,12 +31,9 @@ vim.pack.add {
   'https://github.com/kdheepak/lazygit.nvim',
   'https://github.com/echasnovski/mini.nvim',
   'https://github.com/EdenEast/nightfox.nvim',
-  { src = 'https://github.com/3rd/image.nvim', data = { build = false } },
-  -- 'https://github.com/m4xshen/smartcolumn.nvim',
   -- 'https://github.com/lommix/godot.nvim',
   -- 'https://github.com/OXY2DEV/markview.nvim',
   'https://github.com/arakkkkk/kanban.nvim',
-  'https://github.com/milanglacier/minuet-ai.nvim',
   'https://github.com/supermaven-inc/supermaven-nvim',
   'https://github.com/folke/tokyonight.nvim',
   'https://github.com/folke/zen-mode.nvim',
@@ -123,53 +120,6 @@ require('zen-mode').setup {
   on_close = function() end,
 }
 
--- vim.cmd.colorscheme("quiet")
--- vim.opt.background = "light"
-
--- require('minuet').setup {
---   virtualtext = {
---     auto_trigger_ft = {},
---     keymap = {
---       -- accept whole completion
---       accept = '<Tab>',
---       -- accept one line
---       accept_line = '<A-a>',
---       -- accept n lines (prompts for number)
---       -- e.g. "A-z 2 CR" will accept 2 lines
---       accept_n_lines = '<A-z>',
---       -- Cycle to prev completion item, or manually invoke completion
---       prev = '<A-[>',
---       -- Cycle to next completion item, or manually invoke completion
---       next = '<A-]>',
---       dismiss = '<A-e>',
---     },
---   },
---
---   provider = 'openai_compatible',
---   request_timeout = 3.5,
---   throttle = 1500, -- Increase to reduce costs and avoid rate limits
---   debounce = 600, -- Increase to reduce costs and avoid rate limits
---   provider_options = {
---     openai_compatible = {
---       api_key = 'OPENROUTER_API_KEY',
---       end_point = 'https://openrouter.ai/api/v1/chat/completions',
---       model = 'openrouter/free',
---       -- model = 'deepseek/deepseek-v4-flash',
---       name = 'Openrouter',
---       optional = {
---         -- max_tokens = 56,
---         -- top_p = 0.9,
---         provider = {
---           -- Prioritize throughput for faster completion
---           sort = 'throughput',
---         },
---         -- disable thinking to avoid first token latency
---         reasoning_effort = 'none',
---       },
---     },
---   },
--- }
-
 require('kanban').setup {}
 vim.keymap.set('n', '<leader>k', ':KanbanOpen kanban.md<CR>')
 
@@ -202,10 +152,6 @@ vim.keymap.set('n', '<leader>k', ':KanbanOpen kanban.md<CR>')
 -- }
 
 -- require('smartcolumn').setup()
-
-require('image').setup {
-  processor = 'magick_cli',
-}
 
 require('conform').setup {
   notify_on_error = false,
@@ -325,7 +271,7 @@ vim.api.nvim_create_autocmd('User', {
   callback = function()
     require('nvim-treesitter.parsers').ink = {
       install_info = {
-        url = 'https://github.com/little-bonsai/tree-sitter-ink',
+        url = 'https://github.com/up-the-hill/tree-sitter-ink',
         -- revision = <sha>, -- commit hash for revision to check out; HEAD if missing
         -- optional entries:
         -- branch = 'develop', -- only needed if different from default branch
