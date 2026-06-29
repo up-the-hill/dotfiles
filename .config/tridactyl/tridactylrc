@@ -19,6 +19,10 @@ set hintdelay 100
 " Ctrl-F should use the browser's native 'find' functionality.
 unbind <C-f>
 
+" Unbind Ctrl-A and Ctrl-X
+unbind <C-a>
+unbind <C-x>
+
 " But also support Tridactyl search too.
 bind / fillcmdline find
 bind ? fillcmdline find -?
